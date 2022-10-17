@@ -6,18 +6,40 @@ sources:
       schema: jaffle_shop
       tables:
         - name: customers
+          description: Raw customers data
+          columns:
+            - name: id
+              description: Primary key for customers
+              tests:
+                - unique
+                - not_null
+              
         - name: orders
-          loaded_at_field: _etl_loaded_at
-          freshness:
-            warn_after: {count: 12, period: hour}
-            error_after: {count: 24, period: hour}
+          description: Raw orders data.
+          columns:
+            - name: id
+              description: Primary key for orders.
+              loaded_at_field: _etl_loaded_at
+              freshness:
+                warn_after: {count: 12, period: hour}
+                error_after: {count: 24, period: hour}
+              tests:
+                - unique
+                - not_null
 
     - name: stripe
       database: 'dbt-tutorial'
       schema: stripe
       tables:
         - name: payment
-          loaded_at_field: _etl_loaded_at
-          freshness:
-            warn_after: {count: 12, period: hour}
-            error_after: {count: 24, period: hour}
+          description: Raw data from payments.
+          columns:
+            - name: id
+              description: Primary key for payments.
+              loaded_at_field: _etl_loaded_at
+              freshness:
+                warn_after: {count: 12, period: hour}
+                error_after: {count: 24, period: hour}
+              tests:
+                - unique
+                - not_null
